@@ -9,14 +9,15 @@ We will be working with spatio-temporal data, this means the data has geospatial
 ## `Event` Class
 
 Each social unrest event is an agent, an object of the `Event` class. Each event in general has the following information.
-| Parameters | Description |
-| :--- |:---|
-| Location | longitude and latitude |
-| Event-date | date of occurrence of the event(day) |
-| Intensity | Energy associated with it, representing its severity. |
-| Socioeconomic variables and Area | Socioeconomic variables such as the literacy rates or employment rates are calculated for a region or area |
-| Infrastructure variables and spatial radius | These variables are measures of how close infrastructure objects are to an event and how many of these infrastructure objects are within a certain radius of any event |
-| Neighborhood and Radius | Any agent _e<sub>1</sub>_ that is within a distance of _R_ from another agent _e<sub>2</sub>_, is considered a neighbor of the agent _e<sub>2</sub>_. _R_ can only be between [0 - 1]. |
+
+| Parameters                                  | Description                                                                                                                                                                           |
+| :------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Location                                    | longitude and latitude                                                                                                                                                                |
+| Event-date                                  | date of occurrence of the event(day)                                                                                                                                                  |
+| Intensity                                   | Energy associated with it, representing its severity                                                                                                                                  |
+| Socioeconomic variables and Area            | Socioeconomic variables such as the literacy rates or employment rates are calculated for a region or area                                                                            |
+| Infrastructure variables and spatial radius | These variables are measures of how close infrastructure objects are to an event and how many of these infrastructure objects are within a certain radius of any event                |
+| Neighborhood and Radius                     | Any agent _e<sub>1</sub>_ that is within a distance of _R_ from another agent _e<sub>2</sub>_, is considered a neighbor of the agent _e<sub>2</sub>_. _R_ can only be between [0 - 1] |
 
 Repast allows us to save results from our simulation into a txt file, but the data must come from a single object. For the sake of data collection, I have had to add some seemingly unnecessary variables to this class such as `recoveryRate`, `influenceRate`, `neighborhoodSize`, `numberOfNeighbors`, `neighborsList`, `neighborhoodDensity`, `coefficientVar`, `avgNeighborhoodIntensity`, `sd` and `confidence`. Variable `markSize` and `intensityColor` were added to aid the visualization. Visualization of markers (representing agents) can have a size variation of [1-10]. We created the variable `markSize` for our `Event` class to declare what size we want our agents to be on the map. All events are initialized with a `markSize` of 1, once the event is alive it is changed to whatever the `MARKER_SIZE` is defined in the `UnrestBuilder` class.
 
@@ -70,7 +71,7 @@ DIE_INTENSITY = (double)params.getValue("dieIntensity");
 We can generate multiple contexts, so it is important to set the context id in the **context.xml** correctly. Also set the projection types. Please see official Repast documentation for details on projections. We use the geography-type projection.
 
 ```xml
-<context id="SocialUnrest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"                       xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
+<context id="SocialUnrest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
   	<projection id="Geography" type="geography"/>
 </context>
 ```
