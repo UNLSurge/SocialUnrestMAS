@@ -114,7 +114,8 @@ So we will continue to use the Java version, and do the following.
 
 - set up the batch parameters.
 - click on the **Create Model Archive for Batch Runs** button on the top (shown in figure below). This will create a **complete_model.jar** file.
-- create a file **local_batch_run.properties** and put the info below. The information should mostly be self self-explanatory, you can change the instance count and other directories. I put this file in the same folder as the archive jar far that I get from the 2nd step.
+  ![](./batch_parameters_setup.PNG)
+- create a file **local_batch_run.properties** and put the info below. The information should mostly be self-explanatory, you can change the instance count and other directories. I put this file in the same folder as the archive jar far that I get from the 2nd step.
 
 ```
 unrolled.batch.parameter.file=./unrolledParamFile.txt
