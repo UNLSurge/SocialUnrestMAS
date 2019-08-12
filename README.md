@@ -1,10 +1,34 @@
 # Social Unrest Simulation Model
 
-This model was built by the SURGE team at the University of Nebraska-Lincoln as part of their research on analyzing and anticipating and social unrest. In our framework, each individual social unrest event acts as an agent that can communicate with other agents within its predefined neighborhood.
+This model was built as part of the research on analyzing and anticipating social unrest events at the University of Nebraska-Lincoln and Citadel University. This research is funded by the National Geospatial-Intelligence Agency.
 
-The software is built upon the [Repast Symphony (RS) 2.6](https://repast.github.io/) framework. It is a open-source agent-based modelling and simulation platform, it's an interactive Java-based modeling system designed for use on workstations and small computing clusters. A getting started guide is can be found at: https://repast.github.io/docs/RepastJavaGettingStarted.pdf. It is reccomended that the user go through this guide before starting a new project or modifying existing ones. I will still try to cover the necessary details in this document.
+In our framework, each individual social unrest event acts as an agent that can communicate with other agents within its predefined neighborhood. The software is built upon the [Repast Symphony (RS) 2.6](https://repast.github.io/) framework. It is a open-source agent-based modelling and simulation platform, it's an interactive Java-based modeling system designed for use on workstations and small computing clusters. A getting started guide is can be found at: https://repast.github.io/docs/RepastJavaGettingStarted.pdf. It is reccomended that the user go through this guide before starting a new project or modifying existing ones. I will still try to cover the necessary details in this document.
 
-We will be working with spatio-temporal data, this means the data has geospatial components (longitude, latitude) and a time element, among other variables. To make calculations in time, I am using the [Joda-Time API](https://www.joda.org/joda-time/). The spatial distances will be calculated using the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula). In Repast Symphony framework, the enviroment is initalized in a class that extends the class `ContextBuilder`. In our project, the initializing class is called `UnrestBuilder`. This class returns a `Context` object, this the platform upon which all agents exist. Our agents are the `Event` objects. We also created an `Observer` object due to restrictions of the Repast Framework to store data (please see class description below for more details).
+## Brief introdction to Repast Symphony
+
+In Repast Symphony framework, the enviroment is initalized in a class that extends the Repast class `ContextBuilder`. In our project, we named this initializing class `UnrestBuilder`. We can simply define our main agents as normal classes.
+Inside the `UnrestBuilder`, we create an environment (`Context`), we then add the agents to this context and return it. In our case, we defined an `Event` class to define the event-type agents and the `Observer` class to create an observer agent.
+
+### **_Scheduling_**
+
+We can simply create a method inside the agent class definition and add a scheduler to it. These methods will be executed for each object of that agent-class during simulation.
+
+```java
+@ScheduledMethod(start=0, interval=1, priority = 4)
+public void makeAlive() {
+    ...
+}
+```
+
+### **_context.xml_**
+
+There is a context.xml file in the `./<ProjectName>.rs` directory. We need to provide the projection types in this file, and give them unique ids. In our project, we are using the `"geography"` type context, so we add that to the context.xml file. It is possible to add multiple projection types.
+
+```xml
+<projection id="Geography" type="geography"/>
+```
+
+We will be working with spatio-temporal data, this means the data has geospatial components (longitude, latitude) and a time element, among other variables. To make calculations in time, I am using the [Joda-Time API](https://www.joda.org/joda-time/). The spatial distances will be calculated using the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula). We also created an `Observer` object due to restrictions of the Repast Framework to store data (please see class description below for more details).
 
 ## `Event` Class
 
@@ -100,10 +124,17 @@ It was really cumbersome to calculate aggregate values from the agents, so I cre
 
 1. Install the Repast Symphony software for Eclipse IDE. [Installation Docs Here](https://repast.github.io/download.html).
 2. Open project **SocialUnrest** with Eclipse IDE.
-3. Press the drop-down menu in the run buttton and choose "SocialUnrest Model", this will open up the RepastMain display.
-4. The project includes the xml files for display setup.
+3. Press the drop-down menu in the run button and choose "SocialUnrest Model", this will open up the RepastMain display.
+4. The project includes the xml files for the simulation setup. If not found, setup your own as follows:
+   - Right-click **Data Loaders**, click on **Set Data Loader**.
+   - Choose **Custom ContextBuilder Implementation**, press **Next** and select the `UnrestBuilder` class (or your own class that you might have built).
 5. Click the initialize button, this will load the data from the filePath, given in the `UnrestBuilder`.
-6. Change different simuation parameters and click Play. The change in the intensties is shown as change in the color of the events.
+6. Change different simuation parameters and click Play. The change in the intensties is shown as change in the color of the events. If the color styling is not working, create the display:
+   - Right-click **Displays**, click **Add Display**.
+   - Choose the projection type. In our case, it is `GIS`. You can add multiple projections types. Click **Next**.
+   - In the Agent Selection panel, Choose the agent classes you want to display. (In our case, it's the `Event` class only). Click **Next**.
+   - In the Agent Style panel, you can assign color themes and shapes to the agents. Click on the **Edit...** button, this will further open the styling control panel.
+   - Click on the drop-down menu next to the **Mark Size** option and select `markSize`. Then click on the **Range Style** tab, set **Attribute** to `intensity`, change **Classes** to `8`.
 
 You can add GIS layers from the display panel. Again, reading the getting-started document is reccomended.
 
